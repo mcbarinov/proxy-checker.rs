@@ -4,9 +4,26 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
+tokio = { version = "1.39.1", features = ["full"] }
 sqlx = { version = "0.8.0", features = ["runtime-tokio", "postgres", "chrono"] }
 chrono = { version = "0.4.38", features = ["serde"] }
 serde = { version = "1.0.204", features = ["derive"] }
+serde_json = "1.0.120"
 serde_with = "3.9.0"
 url = "2.5.2"
 thiserror = "1.0.63"
+dotenv = "0.15.0"
+config = "0.14.0"
+axum = "0.7.5"
+axum-extra = { version = "0.9.3", features = ["cookie"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json"] }
+tracing-appender = "0.2.3"
+minijinja-embed = "2.1.0"
+minijinja = "2.1.0"
+rust-embed = "8.5.0"
+mime_guess = "2.0.5"
+reqwest = { version = "0.12.5", features = ["json", "stream", "socks", "rustls-tls"], default-features = false }
+
+[build-dependencies]
+minijinja-embed = "2.1.0"

@@ -6,6 +6,12 @@ pub enum AppError {
     #[error(transparent)]
     Migrate(#[from] sqlx::migrate::MigrateError),
 
+    #[error(transparent)]
+    Jinja(#[from] minijinja::Error),
+
+    #[error(transparent)]
+    Reqwest(#[from] reqwest::Error),
+
     #[error("not found")]
     NotFound,
 }
