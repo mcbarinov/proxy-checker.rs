@@ -6,7 +6,7 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{fmt, EnvFilter, Layer};
 
-use proxy_checker::{serve_server, App, Config};
+use proxy_checker::{run_scheduler, serve_server, App, Config};
 
 #[tokio::main]
 async fn main() {
@@ -22,5 +22,6 @@ async fn main() {
     tracing_subscriber::registry().with(file_layer).with(console_layer).init();
 
     let app = Arc::new(App::new(&config).await);
+    run_scheduler(Arc::clone(&app));
     serve_server(&config, app).await;
 }

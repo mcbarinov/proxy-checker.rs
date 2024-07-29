@@ -8,7 +8,7 @@ use reqwest::Client;
 use url::Url;
 
 use crate::db::{CreateProxy, Db, Source};
-use crate::Result;
+use crate::{async_synchronized, Result};
 
 pub struct SourceService {
     db: Arc<Db>,
@@ -17,6 +17,14 @@ pub struct SourceService {
 impl SourceService {
     pub fn new(db: Arc<Db>) -> Self {
         Self { db }
+    }
+
+    pub async fn next_check(&self) -> Result<()> {
+        async_synchronized!();
+        if let Some(source_id) = self.db.get_source_for_next_check().await? {
+            self.check(&source_id).await?;
+        }
+        Ok(())
     }
 
     pub async fn check(&self, id: &str) -> Result<Vec<String>> {

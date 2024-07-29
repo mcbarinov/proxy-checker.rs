@@ -104,6 +104,20 @@ impl Db {
             .ok_or(AppError::NotFound)
     }
 
+    pub async fn get_source_for_next_check(&self) -> Result<Option<String>> {
+        let source_id: Option<String> = sqlx::query_scalar!(
+            r"
+            select id
+            from source
+            where checked_at is null or checked_at < now() - interval '1 hour'
+            order by checked_at nulls first
+            limit 1"
+        )
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(source_id)
+    }
+
     pub async fn update_source_checked_at(&self, id: &str) -> Result<()> {
         sqlx::query!("update source set checked_at = now() where id = $1", id).execute(&self.pool).await?;
         Ok(())
@@ -198,5 +212,17 @@ impl Db {
         .await?;
 
         Ok(())
+    }
+
+    pub async fn get_proxies_for_next_check(&self) -> Result<Vec<i64>> {
+        let proxies: Vec<i64> = sqlx::query_scalar!(
+            r"
+            select id from proxy
+            where checked_at is null or checked_at < now() - interval '60 seconds'
+            order by checked_at nulls first limit 15"
+        )
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(proxies)
     }
 }
