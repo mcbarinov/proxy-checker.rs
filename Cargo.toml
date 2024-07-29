@@ -24,6 +24,7 @@ minijinja = "2.1.0"
 rust-embed = "8.5.0"
 mime_guess = "2.0.5"
 reqwest = { version = "0.12.5", features = ["json", "stream", "socks", "rustls-tls"], default-features = false }
+itertools = "0.13.0"
 
 [build-dependencies]
 minijinja-embed = "2.1.0"

@@ -1,0 +1,10 @@
+{% extends "inc/base.html" %}
+{% block content %}
+<h1>set items / {{ source.id }}</h1>
+
+<form method="post">
+  <textarea name="items" rows="20" cols="80">{{source.items | join("\n")}}</textarea>
+  <input type="submit" value="set items">
+</form>
+
+{% endblock %}

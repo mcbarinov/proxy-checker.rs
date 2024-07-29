@@ -1,10 +1,9 @@
-use sqlx::postgres::PgPoolOptions;
-use sqlx::PgPool;
-
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
 use serde_with::NoneAsEmptyString;
+use sqlx::postgres::PgPoolOptions;
+use sqlx::PgPool;
 
 use crate::{AppError, Result};
 
@@ -107,6 +106,11 @@ impl Db {
 
     pub async fn update_source_checked_at(&self, id: &str) -> Result<()> {
         sqlx::query!("update source set checked_at = now() where id = $1", id).execute(&self.pool).await?;
+        Ok(())
+    }
+
+    pub async fn update_source_items(&self, id: &str, items: Vec<String>) -> Result<()> {
+        sqlx::query!("update source set items = $1 where id = $2", &items, id).execute(&self.pool).await?;
         Ok(())
     }
 
