@@ -164,6 +164,11 @@ impl Db {
             .ok_or(AppError::NotFound)
     }
 
+    pub async fn delete_proxies_by_source(&self, source_id: &str) -> Result<()> {
+        sqlx::query!("delete from proxy where source_id = $1", source_id).execute(&self.pool).await?;
+        Ok(())
+    }
+
     pub async fn update_proxy_status(&self, id: i64, ok: bool) -> Result<()> {
         let proxy = self.get_proxy(id).await?;
         // keep last 100 elements only
