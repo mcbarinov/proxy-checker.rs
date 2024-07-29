@@ -9,3 +9,4 @@ mod config;
 pub mod db;
 mod error;
 mod server;
+mod service;
