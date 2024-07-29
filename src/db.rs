@@ -131,6 +131,13 @@ impl Db {
         Ok(())
     }
 
+    pub async fn update_source_proxy_count(&self, id: &str) -> Result<()> {
+        sqlx::query!(r"update source set proxy_count = (select count(*) from proxy where source_id = $1 ) where id = $1", id)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
     pub async fn delete_source(&self, id: &str) -> Result<()> {
         sqlx::query!("delete from proxy where source_id = $1", id).execute(&self.pool).await?;
         sqlx::query!("delete from source where id = $1", id).execute(&self.pool).await?;
@@ -141,7 +148,7 @@ impl Db {
         sqlx::query!(
             r"
             insert into proxy (source_id, url, ip, protocol)
-            values ($1, $2, $3, $4)",
+            values ($1, $2, $3, $4) on conflict do nothing",
             args.source_id,
             args.url,
             args.ip,

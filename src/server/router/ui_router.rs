@@ -25,6 +25,7 @@ pub fn init() -> Router<AppState> {
         .route("/sources/:id/defaults", post(set_source_defaults))
         .route("/sources/:id/items", get(source_items_page))
         .route("/sources/:id/items", post(set_source_items))
+        .route("/proxies", get(proxies_page))
 }
 
 async fn sources_page(state: State<AppState>) -> HtmlResponse {
@@ -40,6 +41,11 @@ async fn source_defaults_page(state: State<AppState>, Path(id): Path<String>) ->
 async fn source_items_page(state: State<AppState>, Path(id): Path<String>) -> HtmlResponse {
     let source = state.app.db.get_source(&id).await?;
     state.html("source_items.html", context! {source => source})
+}
+
+async fn proxies_page(state: State<AppState>) -> HtmlResponse {
+    let proxies = state.app.db.get_proxies().await?;
+    state.html("proxies.html", context! {proxies=>proxies})
 }
 
 async fn create_source(state: State<AppState>, Form(form): Form<CreateSource>) -> Result<Redirect, AppError> {

@@ -35,6 +35,7 @@ impl SourceService {
             }
         }
 
+        self.db.update_source_proxy_count(id).await?;
         Ok(urls)
     }
 

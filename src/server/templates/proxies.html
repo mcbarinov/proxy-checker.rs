@@ -1,0 +1,38 @@
+{% extends "inc/base.html" %}
+{% block content %}
+<h1>proxies / {{ proxies | length }}</h1>
+
+
+<table class="striped">
+  <thead>
+  <tr>
+    <th>ip</th>
+    <th>status</th>
+    <th>source</th>
+    <th>checked_at</th>
+    <th>last_ok_at</th>
+    <th>ok_count</th>
+    <th>down_count</th>
+    <th>check</th>
+    <th>url</th>
+    <th>view</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for p in proxies %}
+  <tr>
+    <td>{{ p.ip }}</td>
+    <td>{{ p.status }}</td>
+    <td>{{ p.source_id }}</td>
+    <td>{{ p.checked_at | dt}}</td>
+    <td>{{ p.last_ok_at }}</td>
+    <td>{{ p | history_ok_count }}</td>
+    <td>{{ p | history_down_count }}</td>
+    <td><a href="/api-post/proxies/{{ p.id }}/check">check</a></td>
+    <td><a href="/api/proxies/{{ p.id }}/url">url</a></td>
+    <td><a href="/api/proxies/{{ p.id }}">view</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

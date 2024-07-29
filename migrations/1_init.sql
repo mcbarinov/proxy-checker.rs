@@ -18,7 +18,7 @@ create table proxy (
     status text not null check (status in ('unknown', 'ok', 'down')) default 'unknown',
     source_id text not null references source(id),
     url text not null,
-    ip text not null,
+    ip text not null unique,
     protocol text not null check (protocol in ('http', 'socks5')),
     created_at timestamptz not null default now(),
     checked_at timestamptz,
