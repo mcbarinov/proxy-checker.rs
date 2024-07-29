@@ -1,0 +1,54 @@
+{% extends "inc/base.html" %}
+{% block content %}
+<h2>sources</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>link</th>
+    <th>items</th>
+    <th>proxies</th>
+    <th>checked_at</th>
+    <th>actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for s in sources %}
+  <tr>
+    <td>{{ s.id }}</td>
+    <td>{{ s.link }}</td>
+    <td>{{ s.items | length }}</td>
+    <td>{{ s.proxy_count }}</td>
+    <td nowrap>{{ s.checked_at }}</td>
+    <td>
+      <details class="dropdown">
+        <summary>actions</summary>
+        <ul>
+          <li><a href="/set-items/{{s.id}}">set items</a></li>
+          <li><a href="/sources/{{ s.id }}/defaults">set defaults</a></li>
+          <li><a href="/api-delete/sources/{{s.id}}/delete-proxies" {{ confirm }}>delete proxies</a></li>
+          <li><a href="/api-post/sources/{{s.id}}/check">check</a></li>
+          <li><a href="/api-delete/sources/{{s.id}}" {{ confirm }}>delete</a></li>
+          <li><a href="/api/sources/{{ s.id }}">view</a></li>
+        </ul>
+      </details>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<hr>
+<section>
+  <h3>create source</h3>
+  <form method="post">
+    <fieldset role="group">
+      <input id="id" name="id" placeholder="id" required>
+      <input id="link" name="link" placeholder="link">
+      <input type="submit" value="create">
+    </fieldset>
+  </form>
+</section>
+
+{% endblock %}

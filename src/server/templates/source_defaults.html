@@ -1,0 +1,20 @@
+{% extends "inc/base.html" %}
+{% block content %}
+<h1>set defaults / {{ source.id }}</h1>
+
+<form method="post">
+  <p>
+    <label for="protocol">protocol</label>
+    <select name="default_protocol" id="protocol">
+      <option value="">protocol...</option>
+      <option value="http" {{ 'selected' if source.default_protocol=='http' }}>http</option>
+      <option value="socks5" {{ 'selected' if source.default_protocol=='socks5' }}>socks5</option>
+    </select></p>
+  <p><label>username</label><input name="default_username" value="{{ source.default_username | none }}"></p>
+  <p><label>password</label><input name="default_password" value="{{ source.default_password | none }}"></p>
+  <p><label>port</label><input name="default_port" type="number" value="{{ source.default_port }}"></p>
+  <button type="submit">Save</button>
+
+</form>
+
+{% endblock %}
