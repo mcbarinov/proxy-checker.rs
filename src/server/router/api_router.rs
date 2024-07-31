@@ -1,7 +1,9 @@
-use axum::extract::{Path, State};
+use axum::extract::{Path, Query, State};
 use axum::routing::{delete, get, post};
 use axum::Router;
+use serde_json::json;
 
+use crate::db::LiveProxiesParams;
 use crate::server::{AppState, JsonResponse};
 use crate::AppError;
 
@@ -11,6 +13,7 @@ pub fn init() -> Router<AppState> {
         .route("/sources/:id/check", post(check_source))
         .route("/sources/:id/delete-proxies", delete(delete_proxies_by_source))
         .route("/sources/:id", delete(delete_source))
+        .route("/proxies/live", get(get_live_proxies))
         .route("/proxies/:id", get(get_proxy))
         .route("/proxies/:id/url", get(get_proxy_url))
         .route("/proxies/:id/check", post(check_proxy))
@@ -44,4 +47,9 @@ async fn get_proxy_url(state: State<AppState>, Path(id): Path<i64>) -> Result<St
 
 async fn check_proxy(state: State<AppState>, Path(id): Path<i64>) -> JsonResponse {
     state.json(state.app.proxy_service.check(id).await?)
+}
+
+async fn get_live_proxies(state: State<AppState>, Query(params): Query<LiveProxiesParams>) -> JsonResponse {
+    let proxies = state.app.db.get_live_proxies(params).await?;
+    state.json(json!({ "proxies": proxies }))
 }

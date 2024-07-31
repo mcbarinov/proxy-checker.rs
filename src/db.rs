@@ -5,6 +5,7 @@ use serde_with::NoneAsEmptyString;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::PgPool;
 
+use crate::util::opt_csv_deserialize;
 use crate::{AppError, Result};
 
 pub struct Db {
@@ -78,6 +79,14 @@ impl CreateProxy {
         let protocol = url.scheme().to_string();
         Some(CreateProxy { source_id: source_id.to_string(), url: url.to_string(), ip, protocol })
     }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct LiveProxiesParams {
+    #[serde(deserialize_with = "opt_csv_deserialize")]
+    sources: Option<Vec<String>>,
+    protocol: Option<String>,
+    limit: Option<i64>,
 }
 
 impl Db {
@@ -224,5 +233,20 @@ impl Db {
         .fetch_all(&self.pool)
         .await?;
         Ok(proxies)
+    }
+
+    pub async fn get_live_proxies(&self, params: LiveProxiesParams) -> Result<Vec<String>> {
+        let mut query = "select url from proxy where status = 'ok'".to_string();
+        if let Some(sources) = params.sources {
+            query.push_str(&format!(" and source_id in ('{}')", sources.join("', '")));
+        }
+        if let Some(protocol) = params.protocol {
+            query.push_str(&format!(" and protocol = '{}'", protocol));
+        }
+        if let Some(limit) = params.limit {
+            query.push_str(&format!(" limit {}", limit));
+        }
+        let urls: Vec<String> = sqlx::query_scalar(&query).fetch_all(&self.pool).await?;
+        Ok(urls)
     }
 }
