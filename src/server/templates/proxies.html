@@ -24,8 +24,8 @@
     <td>{{ p.ip }}</td>
     <td>{{ p.status }}</td>
     <td>{{ p.source_id }}</td>
-    <td>{{ p.checked_at | dt}}</td>
-    <td>{{ p.last_ok_at }}</td>
+    <td>{{ p.checked_at | dt }}</td>
+    <td>{{ p.last_ok_at | dt }}</td>
     <td>{{ p | history_ok_count }}</td>
     <td>{{ p | history_down_count }}</td>
     <td><a href="/api-post/proxies/{{ p.id }}/check">check</a></td>

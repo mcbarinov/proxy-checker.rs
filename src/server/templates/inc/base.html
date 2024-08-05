@@ -26,6 +26,6 @@
   {%- endblock %}
 </main>
 
-<footer>v{{ config.app_version }}</footer>
+<footer>v{{ config.app_version }}, server time: {{ now() | datetimeformat(format="iso") }}</footer>
 </body>
 </html>

@@ -1155,18 +1155,29 @@ dependencies = [
 
 [[package]]
 name = "minijinja"
-version = "2.1.0"
+version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45f7e8e35b6c7b169bf40b0176d2c79291ab8ee53290b84e0668ab21d841aa9d"
+checksum = "f4bf71af278c578cbcc91d0b1ff092910208bc86f7b3750364642bd424e3dcd3"
 dependencies = [
  "serde",
 ]
 
 [[package]]
-name = "minijinja-embed"
-version = "2.1.0"
+name = "minijinja-contrib"
+version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "990a44192321f6609d7588d867ec8f08e4b26924e0842d57e4ad30351a286168"
+checksum = "b22bcb360a130647646fdda70742bff3cea5d4fe562d8a943f26675c84206088"
+dependencies = [
+ "minijinja",
+ "serde",
+ "time",
+]
+
+[[package]]
+name = "minijinja-embed"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1f1dccf45ab542f5a151e0f22bcd08cdf37eee6c0b7d58d97d9b128735bd8e6e"
 
 [[package]]
 name = "minimal-lexical"
@@ -1550,6 +1561,7 @@ dependencies = [
  "lazy_static",
  "mime_guess",
  "minijinja",
+ "minijinja-contrib",
  "minijinja-embed",
  "reqwest",
  "rust-embed",
@@ -1966,9 +1978,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.121"
+version = "1.0.122"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ab380d7d9f22ef3f21ad3e6c1ebe8e4fc7a2000ccba2e4d71fc96f15b2cb609"
+checksum = "784b6203951c57ff748476b126ccb5e8e2959a5c19e5c617ab1956be3dbc68da"
 dependencies = [
  "itoa",
  "memchr",

@@ -17,10 +17,10 @@
   {% for s in sources %}
   <tr>
     <td>{{ s.id }}</td>
-    <td>{{ s.link }}</td>
+    <td>{{ s.link | default }}</td>
     <td>{{ s.items | length }}</td>
     <td>{{ s.proxy_count }}</td>
-    <td nowrap>{{ s.checked_at }}</td>
+    <td nowrap>{{ s.checked_at | dt }}</td>
     <td>
       <details class="dropdown">
         <summary>actions</summary>
