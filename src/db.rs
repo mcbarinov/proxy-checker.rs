@@ -83,7 +83,7 @@ impl CreateProxy {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct LiveProxiesParams {
-    #[serde(deserialize_with = "opt_csv_deserialize")]
+    #[serde(default, deserialize_with = "opt_csv_deserialize")]
     sources: Option<Vec<String>>,
     protocol: Option<String>,
     limit: Option<i64>,

@@ -11,5 +11,5 @@ pub mod db;
 mod error;
 mod scheduler;
 mod server;
-mod service;
+mod services;
 mod util;

@@ -12,6 +12,9 @@ pub enum AppError {
     #[error(transparent)]
     Reqwest(#[from] reqwest::Error),
 
+    #[error(transparent)]
+    Io(#[from] std::io::Error),
+
     #[error("not found")]
     NotFound,
 }

@@ -13,13 +13,13 @@ use crate::config::Config;
 use crate::server::api_method::api_method;
 use crate::server::asset::asset_router;
 use crate::server::auth::auth_router;
-use crate::server::router::{api_router, ui_router};
+use crate::server::routers::{api_router, ui_router};
 use crate::AppError;
 
 mod api_method;
 mod asset;
 mod auth;
-mod router;
+mod routers;
 mod state;
 mod template;
 
@@ -29,7 +29,8 @@ pub type HtmlResponse = Result<Html<String>, AppError>;
 pub async fn serve_server(config: &Config, app: Arc<App>) {
     let state = AppState::new(config, app);
 
-    let axum_app = Router::new()
+    let router = Router::new()
+        .merge(api_router::swagger())
         .merge(ui_router::init())
         .nest("/api", api_router::init())
         .route("/api-post/*path", get(api_method))
@@ -41,7 +42,7 @@ pub async fn serve_server(config: &Config, app: Arc<App>) {
 
     let listener = tokio::net::TcpListener::bind(&config.bind_address).await.unwrap();
     tracing::info!("listening on {}", listener.local_addr().unwrap());
-    axum::serve(listener, axum_app).await.unwrap();
+    axum::serve(listener, router).await.unwrap();
 }
 
 impl IntoResponse for AppError {

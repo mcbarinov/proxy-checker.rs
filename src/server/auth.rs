@@ -5,10 +5,11 @@ use axum::extract::{Query, Request, State};
 use axum::http::StatusCode;
 use axum::middleware::Next;
 use axum::response::{Redirect, Response};
-use axum::routing::{get, post};
+use axum::routing::get;
 use axum::{Form, Router};
 use axum_extra::extract::cookie::Cookie;
 use axum_extra::extract::CookieJar;
+use cookie::time::Duration;
 use minijinja::context;
 use serde::{Deserialize, Serialize};
 
@@ -16,10 +17,7 @@ use crate::server::state::AppState;
 use crate::server::HtmlResponse;
 
 pub fn auth_router() -> Router<AppState> {
-    Router::new()
-        .route("/auth/login", get(login_page_handler))
-        .route("/auth/login", post(login_handler))
-        .route("/auth/logout", get(logout_handler))
+    Router::new().route("/auth/login", get(login_page_handler).post(login_handler)).route("/auth/logout", get(logout_handler))
 }
 
 #[derive(Serialize, Deserialize)]
@@ -33,14 +31,17 @@ async fn login_page_handler(state: State<AppState>) -> HtmlResponse {
 
 async fn login_handler(State(state): State<AppState>, mut jars: CookieJar, Form(form): Form<LoginForm>) -> (CookieJar, Redirect) {
     if form.access_token == state.config.access_token.clone() {
-        let cookie = Cookie::build(("access-token", state.config.access_token.clone())).path("/").secure(true).http_only(true);
+        let cookie = Cookie::build(("access-token", state.config.access_token.clone()))
+            .path("/")
+            .http_only(true)
+            .max_age(Duration::days(30));
         jars = jars.add(cookie);
     }
     (jars, Redirect::to("/"))
 }
 
 async fn logout_handler(mut jars: CookieJar) -> (CookieJar, Redirect) {
-    let cookie = Cookie::build(("access-token", "")).path("/").secure(true).http_only(true);
+    let cookie = Cookie::build(("access-token", "")).path("/").http_only(true);
     jars = jars.add(cookie);
     (jars, Redirect::to("/"))
 }

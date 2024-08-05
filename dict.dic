@@ -2,3 +2,4 @@ timestamptz
 bigserial
 endfor
 endblock
+reqwest
