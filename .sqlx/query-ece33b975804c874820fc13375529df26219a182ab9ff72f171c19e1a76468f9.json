@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "update source set items = $1 where id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "TextArray",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "ece33b975804c874820fc13375529df26219a182ab9ff72f171c19e1a76468f9"
+}

@@ -1,0 +1,38 @@
+services:
+  app:
+    image: proxy-checker-rs:latest
+    platform: linux/amd64
+    restart: always
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    environment:
+      - APP_NAME=${APP_NAME}
+      - BIND_ADDRESS=0.0.0.0:3000
+      - DATA_DIR=/tmp
+      - DATABASE_URL=postgres://postgres:secret@db/app
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
+    volumes:
+      - app:/data
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: postgres:16.3
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=app
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -u postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  db:
+  app:
+

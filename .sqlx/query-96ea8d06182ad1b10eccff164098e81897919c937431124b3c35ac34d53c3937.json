@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "update source set checked_at = now() where id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "96ea8d06182ad1b10eccff164098e81897919c937431124b3c35ac34d53c3937"
+}

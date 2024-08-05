@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            select id\n            from source\n            where checked_at is null or checked_at < now() - interval '1 hour'\n            order by checked_at nulls first\n            limit 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "dfa54829dac1ca60e693d55a3e77ea3027631495aaefc26b017d6a7734b2d810"
+}

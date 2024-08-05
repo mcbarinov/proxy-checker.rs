@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "update source set proxy_count = (select count(*) from proxy where source_id = $1 ) where id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3046f2ef7091f51fd17ea9f13fd51fd06e93d1aacc615c03288b73a75b3740f1"
+}

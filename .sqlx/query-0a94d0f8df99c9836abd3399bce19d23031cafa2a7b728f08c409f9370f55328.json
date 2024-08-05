@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            insert into proxy (source_id, url, ip, protocol)\n            values ($1, $2, $3, $4) on conflict do nothing",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "0a94d0f8df99c9836abd3399bce19d23031cafa2a7b728f08c409f9370f55328"
+}
