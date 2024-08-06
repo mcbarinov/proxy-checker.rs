@@ -1291,6 +1291,7 @@ dependencies = [
  "axum",
  "axum-extra",
  "chrono",
+ "cookie",
  "mime_guess",
  "minijinja",
  "minijinja-embed",

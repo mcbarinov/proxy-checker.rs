@@ -12,14 +12,13 @@ use crate::{App, AppError, Config};
 
 #[derive(Clone)]
 pub struct AppState {
-    pub config: Config,
     pub app: Arc<App>,
-    templates: Environment<'static>,
+    pub templates: Environment<'static>,
 }
 
 impl AppState {
     pub fn new(config: &Config, app: Arc<App>) -> Self {
-        Self { config: config.clone(), app, templates: init_templates(config) }
+        Self { app, templates: init_templates(config) }
     }
 
     pub fn html(&self, template_name: &str, data: impl Serialize) -> HtmlResponse {
