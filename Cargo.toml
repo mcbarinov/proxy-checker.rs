@@ -17,7 +17,7 @@ serde_with = "3.9.0"
 url = "2.5.2"
 thiserror = "1.0.63"
 dotenv = "0.15.0"
-config = "0.14.0"
+config = {version = "0.14.0", features = ["preserve_order"]}
 axum = "0.7.5"
 axum-extra = { version = "0.9.3", features = ["cookie"] }
 tracing = "0.1.40"
@@ -26,8 +26,6 @@ tracing-appender = "0.2.3"
 minijinja-embed = "2.1.1"
 minijinja = "2.1.1"
 minijinja-contrib = { version = "2.1.1", features = ["datetime"] }
-rust-embed = "8.5.0"
-mime_guess = "2.0.5"
 reqwest = { version = "0.12.5", features = ["json", "stream", "socks", "rustls-tls"], default-features = false }
 itertools = "0.13.0"
 clokwerk = "0.4.0"
@@ -36,6 +34,8 @@ futures = "0.3.30"
 utoipa = { version = "4.2.3", features = ["axum_extras"] }
 utoipa-swagger-ui = { version = "7.1.0", features = ["axum"] }
 cookie = "0.18.1"
+mm-base2 = { path = "../mm-base2" }
+indexmap = "2.3.0"
 
 [build-dependencies]
 minijinja-embed = "2.1.0"
