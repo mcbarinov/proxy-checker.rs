@@ -1301,8 +1301,10 @@ dependencies = [
  "serde_json",
  "thiserror",
  "tokio",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
  "utoipa",
- "utoipa-swagger-ui",
 ]
 
 [[package]]
@@ -1714,7 +1716,6 @@ dependencies = [
  "chrono",
  "clokwerk",
  "config",
- "cookie",
  "dotenv",
  "futures",
  "indexmap 2.3.0",
@@ -1732,8 +1733,6 @@ dependencies = [
  "thiserror",
  "tokio",
  "tracing",
- "tracing-appender",
- "tracing-subscriber",
  "url",
  "utoipa",
  "utoipa-swagger-ui",
