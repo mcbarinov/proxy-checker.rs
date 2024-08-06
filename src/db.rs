@@ -1,12 +1,9 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use serde_with::serde_as;
-use serde_with::NoneAsEmptyString;
-use sqlx::postgres::PgPoolOptions;
-use sqlx::PgPool;
+use serde_with::{serde_as, NoneAsEmptyString};
+use sqlx::{postgres::PgPoolOptions, PgPool};
 
-use crate::util::opt_csv_deserialize;
-use crate::{AppError, Result};
+use crate::{util::opt_csv_deserialize, AppError, Result};
 
 pub struct Db {
     pool: PgPool,

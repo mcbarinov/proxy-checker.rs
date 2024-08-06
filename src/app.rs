@@ -1,8 +1,10 @@
 use std::sync::Arc;
 
-use crate::config::Config;
-use crate::db::Db;
-use crate::services::{ProxyService, SourceService};
+use crate::{
+    config::Config,
+    db::Db,
+    services::{ProxyService, SourceService},
+};
 
 pub struct App {
     pub db: Arc<Db>,

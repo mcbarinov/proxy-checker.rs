@@ -1,13 +1,17 @@
-use axum::extract::{Path, Query, State};
-use axum::routing::{delete, get, post};
-use axum::Router;
+use axum::{
+    extract::{Path, Query, State},
+    routing::{delete, get, post},
+    Router,
+};
 use serde_json::json;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::db::LiveProxiesParams;
-use crate::server::{AppState, JsonResponse};
-use crate::AppError;
+use crate::{
+    db::LiveProxiesParams,
+    server::{AppState, JsonResponse},
+    AppError,
+};
 
 #[derive(OpenApi)]
 #[openapi(paths(get_live_proxies, mm_base2::system::clean_logfile, mm_base2::system::get_logfile))]

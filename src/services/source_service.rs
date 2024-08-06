@@ -1,14 +1,14 @@
-use std::net::Ipv4Addr;
-use std::str::FromStr;
-use std::sync::Arc;
-use std::time::Duration;
+use std::{net::Ipv4Addr, str::FromStr, sync::Arc, time::Duration};
 
 use itertools::Itertools;
 use reqwest::Client;
 use url::Url;
 
-use crate::db::{CreateProxy, Db, Source};
-use crate::{async_synchronized, Result};
+use crate::{
+    async_synchronized,
+    db::{CreateProxy, Db, Source},
+    Result,
+};
 
 pub struct SourceService {
     db: Arc<Db>,

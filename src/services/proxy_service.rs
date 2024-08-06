@@ -1,12 +1,10 @@
-use std::sync::Arc;
-use std::time::Duration;
+use std::{sync::Arc, time::Duration};
 
 use futures::future::join_all;
 use reqwest::Client;
 use serde::Deserialize;
 
-use crate::db::Db;
-use crate::{async_synchronized, Result};
+use crate::{async_synchronized, db::Db, Result};
 
 pub struct ProxyService {
     db: Arc<Db>,

@@ -1305,6 +1305,7 @@ dependencies = [
  "tracing-appender",
  "tracing-subscriber",
  "utoipa",
+ "utoipa-swagger-ui",
 ]
 
 [[package]]

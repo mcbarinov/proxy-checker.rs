@@ -1,7 +1,6 @@
 pub use app::App;
 pub use config::Config;
-pub use error::AppError;
-pub use error::Result;
+pub use error::{AppError, Result};
 pub use scheduler::run_scheduler;
 pub use server::serve_server;
 

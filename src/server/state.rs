@@ -1,14 +1,17 @@
 use std::sync::Arc;
 
-use axum::response::Redirect;
-use axum::Json;
+use axum::{response::Redirect, Json};
 use minijinja::Environment;
 use serde::Serialize;
 use serde_json::json;
 
-use crate::server::template::{init_templates, render_template};
-use crate::server::{HtmlResponse, JsonResponse};
-use crate::{App, AppError, Config};
+use crate::{
+    server::{
+        template::{init_templates, render_template},
+        HtmlResponse, JsonResponse,
+    },
+    App, AppError, Config,
+};
 
 #[derive(Clone)]
 pub struct AppState {

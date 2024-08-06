@@ -1,15 +1,18 @@
-use axum::extract::{Path, State};
-use axum::response::Redirect;
-use axum::routing::{get, post};
-use axum::{Form, Router};
+use axum::{
+    extract::{Path, State},
+    response::Redirect,
+    routing::{get, post},
+    Form, Router,
+};
 use itertools::Itertools;
 use minijinja::context;
-use serde::Deserialize;
-use serde_with::serde_derive::Serialize;
+use serde::{Deserialize, Serialize};
 
-use crate::db::{CreateSource, UpdateSourceDefaults};
-use crate::server::{AppState, HtmlResponse};
-use crate::AppError;
+use crate::{
+    db::{CreateSource, UpdateSourceDefaults},
+    server::{AppState, HtmlResponse},
+    AppError,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct SetSourceItems {
