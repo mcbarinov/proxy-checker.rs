@@ -1,17 +1,17 @@
 use std::sync::Arc;
 
+use axum::{Json, middleware, Router};
 use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse, Response};
-use axum::{middleware, Json, Router};
 use serde_json::Value;
 
 pub use state::AppState;
 
 use crate::app::App;
+use crate::AppError;
 use crate::config::Config;
 use crate::server::auth::auth_router;
 use crate::server::routers::{api_router, ui_router};
-use crate::AppError;
 
 mod auth;
 mod routers;
@@ -31,7 +31,8 @@ pub async fn serve_server(config: &Config, app: Arc<App>) {
         .merge(auth_router())
         .layer(middleware::from_fn_with_state(state.clone(), auth::access_token_middleware))
         .merge(mm_base2::api_method_router(&config.access_token, config.https_schema))
-        .merge(mm_base2::base2_assets_router())
+        .merge(mm_base2::assets_router())
+        .merge(mm_base2::system_router(&config.data_dir))
         .with_state(state);
 
     let listener = tokio::net::TcpListener::bind(&config.bind_address).await.unwrap();

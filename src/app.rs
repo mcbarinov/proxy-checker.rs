@@ -2,13 +2,12 @@ use std::sync::Arc;
 
 use crate::config::Config;
 use crate::db::Db;
-use crate::services::{ProxyService, SourceService, SystemService};
+use crate::services::{ProxyService, SourceService};
 
 pub struct App {
     pub db: Arc<Db>,
     pub source_service: SourceService,
     pub proxy_service: ProxyService,
-    pub system_service: SystemService,
 }
 
 impl App {
@@ -17,7 +16,6 @@ impl App {
         let db = Arc::new(db);
         let source_service = SourceService::new(db.clone());
         let proxy_service = ProxyService::new(db.clone());
-        let system_service = SystemService::new(config.clone());
-        Self { db, source_service, proxy_service, system_service }
+        Self { db, source_service, proxy_service }
     }
 }
