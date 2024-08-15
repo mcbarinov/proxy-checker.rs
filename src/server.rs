@@ -5,12 +5,12 @@ use axum::{
     response::{Html, IntoResponse, Response},
     Json,
 };
+use mm_base2::Config;
 use serde_json::Value;
 pub use state::AppState;
 
 use crate::{
     app::App,
-    config::Config,
     server::routers::{api_router, ui_router},
     AppError,
 };

@@ -17,6 +17,9 @@ pub enum AppError {
 
     #[error("not found")]
     NotFound,
+
+    #[error(transparent)]
+    Base2(#[from] mm_base2::Error),
 }
 
 pub type Result<T> = std::result::Result<T, AppError>;

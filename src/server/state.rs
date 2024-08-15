@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use axum::{response::Redirect, Json};
 use minijinja::Environment;
+use mm_base2::Config;
 use serde::Serialize;
 use serde_json::json;
 
@@ -10,7 +11,7 @@ use crate::{
         template::{init_templates, render_template},
         HtmlResponse, JsonResponse,
     },
-    App, AppError, Config,
+    App, AppError,
 };
 
 #[derive(Clone)]

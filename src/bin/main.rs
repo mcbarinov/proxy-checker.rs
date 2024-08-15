@@ -1,10 +1,16 @@
+use indexmap::indexmap;
+use mm_base2::Config;
+use proxy_checker::{run_scheduler, serve_server, App};
 use std::sync::Arc;
-
-use proxy_checker::{run_scheduler, serve_server, App, Config};
 
 #[tokio::main]
 async fn main() {
-    let config = Config::new();
+    let main_menu = indexmap! {
+        "/sources".to_string() => "sources".to_string(),
+        "/proxies".to_string() => "proxies".to_string(),
+    };
+    let config = Config::new(env!("CARGO_PKG_VERSION"), main_menu);
+
     mm_base2::init_tracing("proxy_checker=debug", config.data_dir.as_str());
 
     let app = Arc::new(App::new(&config).await);

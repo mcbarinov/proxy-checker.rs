@@ -1,9 +1,9 @@
 use axum::response::Html;
 use minijinja::{value::ViaDeserialize, Environment, Value};
-use mm_base2::init_jinja_env;
+use mm_base2::{init_jinja_env, Config};
 use serde::Serialize;
 
-use crate::{db::Proxy, server::HtmlResponse, Config};
+use crate::{db::Proxy, server::HtmlResponse};
 
 pub fn init_templates(config: &Config) -> Environment<'static> {
     let mut env = init_jinja_env();
