@@ -22,4 +22,10 @@ pub enum AppError {
     Base2(#[from] mm_base2::Error),
 }
 
+impl From<AppError> for mm_base2::Error {
+    fn from(value: AppError) -> Self {
+        mm_base2::Error::App(value.to_string())
+    }
+}
+
 pub type Result<T> = std::result::Result<T, AppError>;

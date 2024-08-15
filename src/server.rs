@@ -2,11 +2,10 @@ use std::sync::Arc;
 
 use axum::{
     http::StatusCode,
-    response::{Html, IntoResponse, Response},
-    Json,
+    response::{IntoResponse, Response},
 };
 use mm_base2::Config;
-use serde_json::Value;
+
 pub use state::AppState;
 
 use crate::{
@@ -18,9 +17,6 @@ use crate::{
 mod routers;
 mod state;
 mod template;
-
-pub type JsonResponse = Result<Json<Value>, AppError>;
-pub type HtmlResponse = Result<Html<String>, AppError>;
 
 pub async fn serve_server(config: &Config, app: Arc<App>) {
     let state = AppState::new(config, app);

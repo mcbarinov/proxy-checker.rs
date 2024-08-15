@@ -3,15 +3,12 @@ use axum::{
     routing::{delete, get, post},
     Router,
 };
+use mm_base2::{Base2State, JsonResult};
 use serde_json::json;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::{
-    db::LiveProxiesParams,
-    server::{AppState, JsonResponse},
-    AppError,
-};
+use crate::{db::LiveProxiesParams, server::AppState, AppError};
 
 #[derive(OpenApi)]
 #[openapi(paths(get_live_proxies, mm_base2::system::clean_logfile, mm_base2::system::get_logfile))]
@@ -33,25 +30,25 @@ pub fn init() -> Router<AppState> {
         .route("/proxies/:id/check", post(check_proxy))
 }
 
-async fn get_source(state: State<AppState>, Path(id): Path<String>) -> JsonResponse {
+async fn get_source(state: State<AppState>, Path(id): Path<String>) -> JsonResult {
     state.json(state.app.db.get_source(&id).await?)
 }
 
-async fn check_source(state: State<AppState>, Path(id): Path<String>) -> JsonResponse {
+async fn check_source(state: State<AppState>, Path(id): Path<String>) -> JsonResult {
     state.json(state.app.source_service.check(&id).await?)
 }
 
-async fn delete_source(state: State<AppState>, Path(id): Path<String>) -> JsonResponse {
+async fn delete_source(state: State<AppState>, Path(id): Path<String>) -> JsonResult {
     state.app.db.delete_source(&id).await?;
     state.json("ok")
 }
 
-async fn delete_proxies_by_source(state: State<AppState>, Path(id): Path<String>) -> JsonResponse {
+async fn delete_proxies_by_source(state: State<AppState>, Path(id): Path<String>) -> JsonResult {
     state.app.db.delete_proxies_by_source(&id).await?;
     state.json("ok")
 }
 
-async fn get_proxy(state: State<AppState>, Path(id): Path<i64>) -> JsonResponse {
+async fn get_proxy(state: State<AppState>, Path(id): Path<i64>) -> JsonResult {
     state.json(state.app.db.get_proxy(id).await?)
 }
 
@@ -59,12 +56,12 @@ async fn get_proxy_url(state: State<AppState>, Path(id): Path<i64>) -> Result<St
     Ok(state.app.db.get_proxy(id).await?.url)
 }
 
-async fn check_proxy(state: State<AppState>, Path(id): Path<i64>) -> JsonResponse {
+async fn check_proxy(state: State<AppState>, Path(id): Path<i64>) -> JsonResult {
     state.json(state.app.proxy_service.check(id).await?)
 }
 
 #[utoipa::path(get, path = "/api/proxies/live")]
-async fn get_live_proxies(state: State<AppState>, Query(params): Query<LiveProxiesParams>) -> JsonResponse {
+async fn get_live_proxies(state: State<AppState>, Query(params): Query<LiveProxiesParams>) -> JsonResult {
     let proxies = state.app.db.get_live_proxies(params).await?;
     state.json(json!({ "proxies": proxies }))
 }
