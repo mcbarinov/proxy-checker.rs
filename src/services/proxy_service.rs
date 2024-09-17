@@ -4,7 +4,9 @@ use futures::future::join_all;
 use reqwest::Client;
 use serde::Deserialize;
 
-use crate::{async_synchronized, db::Db, Result};
+use crate::{async_synchronized, db::Db};
+
+use mm_base2::Result;
 
 pub struct ProxyService {
     db: Arc<Db>,

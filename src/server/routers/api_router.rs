@@ -3,12 +3,12 @@ use axum::{
     routing::{delete, get, post},
     Router,
 };
-use mm_base2::{Base2State, JsonResult};
+use mm_base2::{Base2State, JsonResult, PlainTextResult};
 use serde_json::json;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::{db::LiveProxiesParams, server::AppState, AppError};
+use crate::{db::LiveProxiesParams, server::AppState};
 
 #[derive(OpenApi)]
 #[openapi(paths(get_live_proxies, mm_base2::system::clean_logfile, mm_base2::system::get_logfile))]
@@ -52,7 +52,7 @@ async fn get_proxy(state: State<AppState>, Path(id): Path<i64>) -> JsonResult {
     state.json(state.app.db.get_proxy(id).await?)
 }
 
-async fn get_proxy_url(state: State<AppState>, Path(id): Path<i64>) -> Result<String, AppError> {
+async fn get_proxy_url(state: State<AppState>, Path(id): Path<i64>) -> PlainTextResult {
     Ok(state.app.db.get_proxy(id).await?.url)
 }
 

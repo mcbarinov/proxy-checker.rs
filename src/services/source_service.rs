@@ -7,8 +7,9 @@ use url::Url;
 use crate::{
     async_synchronized,
     db::{CreateProxy, Db, Source},
-    Result,
 };
+
+use mm_base2::Result;
 
 pub struct SourceService {
     db: Arc<Db>,

@@ -3,11 +3,13 @@ use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, NoneAsEmptyString};
 use sqlx::{postgres::PgPoolOptions, PgPool};
 
-use crate::{util::opt_csv_deserialize, AppError, Result};
+use crate::util::opt_csv_deserialize;
 
 pub struct Db {
     pool: PgPool,
 }
+
+use mm_base2::{Error, Result};
 
 // models
 
@@ -104,10 +106,7 @@ impl Db {
     }
 
     pub async fn get_source(&self, id: &str) -> Result<Source> {
-        sqlx::query_as!(Source, "select * from source where id = $1", id)
-            .fetch_optional(&self.pool)
-            .await?
-            .ok_or(AppError::NotFound)
+        sqlx::query_as!(Source, "select * from source where id = $1", id).fetch_optional(&self.pool).await?.ok_or(Error::NotFound)
     }
 
     pub async fn get_source_for_next_check(&self) -> Result<Option<String>> {
@@ -185,10 +184,7 @@ impl Db {
     }
 
     pub async fn get_proxy(&self, id: i64) -> Result<Proxy> {
-        sqlx::query_as!(Proxy, "select * from proxy where id = $1", id)
-            .fetch_optional(&self.pool)
-            .await?
-            .ok_or(AppError::NotFound)
+        sqlx::query_as!(Proxy, "select * from proxy where id = $1", id).fetch_optional(&self.pool).await?.ok_or(Error::NotFound)
     }
 
     pub async fn delete_proxies_by_source(&self, source_id: &str) -> Result<()> {
